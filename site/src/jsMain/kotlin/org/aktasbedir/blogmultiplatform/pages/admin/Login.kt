@@ -18,6 +18,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
+import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.margin
@@ -28,8 +29,10 @@ import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.aktasbedir.blogmultiplatform.models.Theme
+import org.aktasbedir.blogmultiplatform.styles.LoginInputStyle
 import org.aktasbedir.blogmultiplatform.utils.Constants.FONT_FAMILY
 import org.aktasbedir.blogmultiplatform.utils.Resource
 import org.jetbrains.compose.web.attributes.InputType
@@ -65,7 +68,8 @@ fun LoginScreen() {
             )
             Input(
                 type = InputType.Text,
-                attrs = Modifier
+                attrs = LoginInputStyle.toModifier()
+                    .fontSize(16.px)
                     .width(390.px)
                     .height(40.px)
                     .padding(leftRight = 20.px)
@@ -74,12 +78,7 @@ fun LoginScreen() {
                     .borderRadius(4.px)
                     .backgroundColor(Color.white)
                     .fontFamily(FONT_FAMILY)
-                    .border(
-                        width = 0.px,
-                        color = Color.transparent,
-                        style = LineStyle.None
-                    )
-                    .outline(
+                     .outline(
                         width = 0.px,
                         color = Color.transparent,
                         style = LineStyle.None
@@ -92,7 +91,7 @@ fun LoginScreen() {
 
             Input(
                 type = InputType.Password,
-                attrs = Modifier
+                attrs = LoginInputStyle.toModifier()
                     .width(390.px)
                     .height(40.px)
                     .padding(leftRight = 20.px)
@@ -101,11 +100,7 @@ fun LoginScreen() {
                     .backgroundColor(Color.white)
                     .fontFamily(FONT_FAMILY)
                     .fontWeight(FontWeight.Medium)
-                    .border(
-                        width = 0.px,
-                        color = Color.transparent,
-                        style = LineStyle.None
-                    )
+                    .fontSize(16.px)
                     .outline(
                         width = 0.px,
                         color = Color.transparent,
@@ -142,6 +137,7 @@ fun LoginScreen() {
                     modifier = Modifier
                         .fontFamily(FONT_FAMILY)
                         .fontWeight(FontWeight.Medium)
+                        .fontSize(16.px)
                         .color(Color.white)
                 )
             }

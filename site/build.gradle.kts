@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kobweb.application)
     alias(libs.plugins.kobwebx.markdown)
+//    alias(libs.plugins.serialization.plugin)
 }
 
 group = "org.aktasbedir.blogmultiplatform"
@@ -41,6 +42,10 @@ kotlin {
         }
         jvmMain.dependencies {
             compileOnly(libs.kobweb.api) // Provided by Kobweb backend at runtime
+            implementation(libs.mongodb.database)
+            implementation(libs.coroutines.core)
+            implementation(libs.kotlinx.serialization)
+
         }
     }
 }

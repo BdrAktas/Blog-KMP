@@ -23,7 +23,8 @@ val LoginInputStyle by ComponentStyle {
             .transition(CSSTransition(property = "border", duration = 300.ms))
     }
     focus {
-        Modifier.border(
+        Modifier
+            .border(
             width = 2.px,
             style = LineStyle.Solid,
             color = Theme.PrimaryColor.rgb

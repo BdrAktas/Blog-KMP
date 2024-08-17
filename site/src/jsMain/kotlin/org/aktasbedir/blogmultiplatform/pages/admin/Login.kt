@@ -55,7 +55,8 @@ fun LoginScreen() {
         Column(
             modifier = Modifier
                 .padding(leftRight = 50.px, bottom = 24.px)
-                .backgroundColor(Theme.LightGrayColor.rgb),
+                .backgroundColor(Theme.LightGrayColor.rgb)
+                .borderRadius(76.px),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

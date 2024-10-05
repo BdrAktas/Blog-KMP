@@ -166,7 +166,7 @@ fun loginScreen() {
                                 if (user != null) {
                                     //
                                     rememberLoggedIn(isLoggedIn = true, user = user)
-                                    // eger user exist ise homepagee yonlendir
+                                    // eger user exist ise homepage'e yonlendir
                                     context.router.navigateTo("/admin")
                                 } else {
                                     errorText = "User does not exist"

@@ -54,6 +54,26 @@ suspend fun userCheck(context: ApiContext) {
     }
 }
 
+@Api(routeOverride = "usercheckid")
+suspend fun checkUserId(context: ApiContext) {
+    try {
+        // idRequest ile bize request eden userin id'sini alacagiz
+        val idRequest =
+            context.req.body?.decodeToString()?.let { Json.decodeFromString<String>(it) }
+        val result = idRequest?.let { context.data.getValue<MongoDB>().checkUserId(it) }
+
+        //usera gosterecegin response
+        if (result != null) {
+            context.res.setBodyText(Json.encodeToString(result))
+        } else {
+            context.res.setBodyText(Json.encodeToString(false))
+        }
+
+    } catch (e: Exception) {
+        context.res.setBodyText(Json.encodeToString(false))
+    }
+}
+
 
 private fun hashPassword(password: String): String {
 

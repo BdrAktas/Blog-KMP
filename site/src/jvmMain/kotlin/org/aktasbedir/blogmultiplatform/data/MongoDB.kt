@@ -26,12 +26,12 @@ fun initMongoDB(context: InitApiContext) {
 class MongoDB(private val context: InitApiContext) : MongoRepository {
     private val client = KMongo.createClient()
     private val database = client.getDatabase(DATABASE_NAME)
-    private val collection = database.getCollection<User>()
+    private val userCollection = database.getCollection<User>()
 
     //bu fonksiyon user icin MongoDB'e bakicak ve karsilastiracak
     override suspend fun checkUserExistence(user: User): User? {
         return try {
-            collection
+            userCollection
                 .find(
                     and(
                         User::username eq user.username,
@@ -41,6 +41,17 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
         } catch (e: Exception) {
             context.logger.error(e.toString())
             null
+        }
+    }
+
+    // bu fonksiyon userId ile already exist olan id ile karsilastiricak
+    override suspend fun checkUserId(userId: String): Boolean {
+        return try {
+         val documentCount = userCollection.countDocuments(User::_id eq userId).awaitFirst()
+            documentCount > 0
+        } catch (e: Exception) {
+            context.logger.error(e.toString())
+            false
         }
     }
 }

@@ -6,4 +6,5 @@ import org.aktasbedir.blogmultiplatform.models.User
 interface MongoRepository {
     // bu fonksiyon return null ise user does not exist, varsa return user
     suspend fun checkUserExistence(user: User): User?
+    suspend fun checkUserId(userId: String): Boolean
 }

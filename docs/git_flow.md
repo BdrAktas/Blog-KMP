@@ -14,7 +14,7 @@ In this project, I use the **Gitflow** model, which consists of different branch
     - After all bugs are fixed and testing passes, I tag the **final version with `git tag v1.0.0`** and proceed with the production release.
     - The **final version tag is always created from the main branch**, as it represents the most stable and production-ready code.
 
-Here's the Git Flow diagram ![Git Flow Branch Structure](docs/images/gitflow-diagram.png "Git Flow Branch Structure"):
+Here's the Git Flow diagram ![Git Flow Branch Structure](images/gitflow-diagram.png "Git Flow Branch Structure"):
 
 1. We start by making the initial commit on the **main** branch.
 2. The **develop** branch is created, and all new development takes place here.

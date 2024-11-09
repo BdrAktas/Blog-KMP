@@ -32,7 +32,7 @@ suspend fun checkUserExistence(user: User): UserWithoutPassword? {
 suspend fun checkUserId(id: String): Boolean {
     return try {
         val result = window.api.tryPost(
-            apiPath = "checkuserid",
+            apiPath = "usercheckid",
             body = Json.encodeToString(id).encodeToByteArray()
         )
         result?.decodeToString()?.let { Json.decodeFromString<Boolean>(it) } ?: false

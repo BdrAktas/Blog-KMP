@@ -79,13 +79,13 @@ fun loginScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                src = Resource.Image.admin,
-                description = "Logo Image",
-                modifier = Modifier
-                    .padding(bottom = 24.px)
-                    .fillMaxSize()
-            )
+//            Image(
+//                src = Resource.Image.admin,
+//                description = "Logo Image",
+//                modifier = Modifier
+//                    .padding(bottom = 24.px)
+//                    .fillMaxSize()
+//            )
             Input(
                 type = InputType.Text,
                 attrs = LoginInputStyle.toModifier()

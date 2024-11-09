@@ -15,7 +15,7 @@ import org.w3c.dom.get
 // parametre olarak aldigi lambda blogu aslinda tum sayfayi refer ediyor
 fun isUserLoggedIn(content: @Composable () -> Unit) {
     val context = rememberPageContext()
-    val remembered = remember { localStorage["remember"].toBoolean() }
+    val remembered = remember { localStorage["isLoggedIn"].toBoolean() }
     val userId = remember { localStorage["userId"] }
     var userIdExists by remember { mutableStateOf(false) }
 

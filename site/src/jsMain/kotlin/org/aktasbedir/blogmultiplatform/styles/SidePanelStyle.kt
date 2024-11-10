@@ -8,11 +8,12 @@ import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import org.aktasbedir.blogmultiplatform.models.Theme
+import org.aktasbedir.blogmultiplatform.utils.Id
 import org.jetbrains.compose.web.css.ms
 
 
 val NavigationItemStyle by ComponentStyle {
-    cssRule(" > #svgParent > #vectorIcon") {
+    cssRule(" > #${Id.svgParent} > #${Id.vectorIcon}") {
         Modifier
             .transition(
 //                CSSTransition(property = TransitionProperty.All.toString(), duration = 300.ms)
@@ -27,13 +28,13 @@ val NavigationItemStyle by ComponentStyle {
                 property("stroke", Theme.White.hex)
             }
     }
-    cssRule(":hover > #svgParent > #vectorIcon") {
+    cssRule(":hover > #${Id.svgParent} > #${Id.vectorIcon}") {
         Modifier
             .styleModifier {
                 property("stroke", Theme.Primary.hex)
             }
     }
-    cssRule(" > #navigationText") {
+    cssRule(" > #${Id.navigationText}") {
         Modifier
             .transition(
                 //                CSSTransition(property = TransitionProperty.All.toString(), duration = 300.ms)
@@ -47,7 +48,7 @@ val NavigationItemStyle by ComponentStyle {
 
             .color(Theme.White.rgb)
     }
-    cssRule(":hover > #navigationText") {
+    cssRule(":hover > #${Id.navigationText}") {
         Modifier.color(Theme.Primary.rgb)
     }
 }

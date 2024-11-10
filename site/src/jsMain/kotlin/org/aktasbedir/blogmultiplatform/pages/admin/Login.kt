@@ -44,10 +44,9 @@ import kotlinx.coroutines.launch
 import org.aktasbedir.blogmultiplatform.models.Theme
 import org.aktasbedir.blogmultiplatform.models.User
 import org.aktasbedir.blogmultiplatform.models.UserWithoutPassword
-import org.aktasbedir.blogmultiplatform.pages.HomePage
 import org.aktasbedir.blogmultiplatform.styles.LoginInputStyle
 import org.aktasbedir.blogmultiplatform.utils.Constants.FONT_FAMILY
-import org.aktasbedir.blogmultiplatform.utils.IdOfButtons
+import org.aktasbedir.blogmultiplatform.utils.Id
 import org.aktasbedir.blogmultiplatform.utils.Res
 import org.aktasbedir.blogmultiplatform.utils.checkUserExistence
 import org.jetbrains.compose.web.attributes.InputType
@@ -63,7 +62,7 @@ import org.w3c.dom.set
 //@Page(routeOverride = "login") gerek yoktu zaten dosya adi Login
 @Page(routeOverride = "login")
 @Composable
-fun loginScreen() {
+fun LoginScreen() {
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
     var errorText by remember { mutableStateOf(" ") }
@@ -89,7 +88,7 @@ fun loginScreen() {
             Input(
                 type = InputType.Text,
                 attrs = LoginInputStyle.toModifier()
-                    .id(IdOfButtons.userNameInput)
+                    .id(Id.userNameInput)
                     .fontSize(16.px)
                     .width(390.px)
                     .height(40.px)
@@ -113,7 +112,7 @@ fun loginScreen() {
             Input(
                 type = InputType.Password,
                 attrs = LoginInputStyle.toModifier()
-                    .id(IdOfButtons.passwordInput)
+                    .id(Id.passwordInput)
                     .width(390.px)
                     .height(40.px)
                     .padding(leftRight = 20.px)
@@ -154,9 +153,9 @@ fun loginScreen() {
                     .onClick {
                         scope.launch {
                             val username =
-                                (document.getElementById(IdOfButtons.userNameInput) as HTMLInputElement).value
+                                (document.getElementById(Id.userNameInput) as HTMLInputElement).value
                             val password =
-                                (document.getElementById(IdOfButtons.passwordInput) as HTMLInputElement).value
+                                (document.getElementById(Id.passwordInput) as HTMLInputElement).value
                             if (username.isNotEmpty() && password.isNotEmpty()) {
                                 // eger bos degilse simdi Post requeste basliyabiliriz
                                 val user = checkUserExistence(

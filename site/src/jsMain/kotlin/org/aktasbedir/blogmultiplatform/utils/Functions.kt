@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.core.rememberPageContext
 import kotlinx.browser.localStorage
-import org.w3c.dom.Screen
+import org.aktasbedir.blogmultiplatform.navigation.Screen
 import org.w3c.dom.get
 
 @Composable
@@ -25,7 +25,7 @@ fun isUserLoggedIn(content: @Composable () -> Unit) {
         // eger yoksa direk falase don
         userIdExists = if (!userId.isNullOrEmpty()) checkUserId(id = userId) else false
         if (!remembered || !userIdExists) {
-            context.router.navigateTo("/admin/login")
+            context.router.navigateTo(Screen.AdminLogin.route)
         }
     }
 

@@ -27,7 +27,7 @@ val LoginInputStyle by ComponentStyle {
             .border(
             width = 2.px,
             style = LineStyle.Solid,
-            color = Theme.PrimaryColor.rgb
+            color = Theme.Primary.rgb
         )
     }
 }

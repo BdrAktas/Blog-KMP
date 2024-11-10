@@ -48,7 +48,7 @@ import org.aktasbedir.blogmultiplatform.pages.HomePage
 import org.aktasbedir.blogmultiplatform.styles.LoginInputStyle
 import org.aktasbedir.blogmultiplatform.utils.Constants.FONT_FAMILY
 import org.aktasbedir.blogmultiplatform.utils.IdOfButtons
-import org.aktasbedir.blogmultiplatform.utils.Resource
+import org.aktasbedir.blogmultiplatform.utils.Res
 import org.aktasbedir.blogmultiplatform.utils.checkUserExistence
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.Color
@@ -74,18 +74,18 @@ fun loginScreen() {
         Column(
             modifier = Modifier
                 .padding(leftRight = 50.px, bottom = 24.px)
-                .backgroundColor(Theme.LightGrayColor.rgb)
+                .backgroundColor(Theme.LightGray.rgb)
                 .borderRadius(76.px),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-//            Image(
-//                src = Resource.Image.admin,
-//                description = "Logo Image",
-//                modifier = Modifier
-//                    .padding(bottom = 24.px)
-//                    .fillMaxSize()
-//            )
+            Image(
+                src = Res.Image.admin,
+                description = "Logo Image",
+                modifier = Modifier
+                    .padding(bottom = 24.px)
+                    .fillMaxSize()
+            )
             Input(
                 type = InputType.Text,
                 attrs = LoginInputStyle.toModifier()
@@ -137,7 +137,7 @@ fun loginScreen() {
                     .width(390.px)
                     .height(40.px)
                     .margin(bottom = 20.px)
-                    .backgroundColor(Theme.PrimaryColor.rgb)
+                    .backgroundColor(Theme.Primary.rgb)
                     .borderRadius(4.px)
                     .fontFamily(FONT_FAMILY)
                     .fontWeight(FontWeight.Medium)

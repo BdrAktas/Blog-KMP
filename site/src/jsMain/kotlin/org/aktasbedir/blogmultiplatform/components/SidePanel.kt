@@ -8,9 +8,11 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.height
@@ -26,11 +28,16 @@ import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.icons.fa.FaBars
+import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import org.aktasbedir.blogmultiplatform.models.Theme
 import org.aktasbedir.blogmultiplatform.navigation.Screen
 import org.aktasbedir.blogmultiplatform.styles.NavigationItemStyle
+import org.aktasbedir.blogmultiplatform.utils.Constants.COLLAPSED_PANEL_HEIGHT
 import org.aktasbedir.blogmultiplatform.utils.Constants.FONT_FAMILY
 import org.aktasbedir.blogmultiplatform.utils.Constants.SIDE_PANEL_WIDTH
 import org.aktasbedir.blogmultiplatform.utils.Id
@@ -42,7 +49,20 @@ import org.jetbrains.compose.web.css.vh
 
 
 @Composable
-fun SidePanel() {
+fun SidePanel(onMenuClick: () -> Unit = {}) {
+    //breakpoint: ekran boyutuna gore deger dondurur
+    // basically ekran boyutu degistiginde cagrilir
+    val breakpoint = rememberBreakpoint()
+    //md ve daha kucuk ekransa collapsed goster, md: means devices larger than (small) tablets
+    if (breakpoint > Breakpoint.MD) {
+        SidePanelInternal()
+    } else {
+        CollapsedSidePanel(onMenuClick = onMenuClick)
+    }
+}
+
+@Composable
+private fun SidePanelInternal() {
     val context = rememberPageContext()
 
     Column(
@@ -181,6 +201,35 @@ fun VectorIcon(
                     attr("stroke-linecap", "round")
                     attr("stroke-linejoin", "round")
                 }
+        )
+    }
+}
+
+@Composable
+// Hamburger menuye tiklayinca onMenuClick lambda function calisacak
+fun CollapsedSidePanel(onMenuClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(COLLAPSED_PANEL_HEIGHT.px)
+            .padding(leftRight = 24.px)
+            .backgroundColor(Theme.Secondary.rgb),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        //Kobweb bize font awesome iconlarını kullanma ozgurlugu veriyor
+        // bizim kullandigimiz bars iconu: https://fontawesome.com/search?q=bars&o=r
+        FaBars(
+            modifier = Modifier
+                .margin(right = 24.px)
+                .color(Colors.White)
+                .cursor(Cursor.Pointer)
+                .onClick { onMenuClick() },
+            size = IconSize.XL
+        )
+        Image(
+            modifier = Modifier.width(80.px),
+            src = Res.Image.logo,
+            description = "Logo Image"
         )
     }
 }

@@ -35,6 +35,7 @@ import org.aktasbedir.blogmultiplatform.utils.Constants.FONT_FAMILY
 import org.aktasbedir.blogmultiplatform.utils.Constants.SIDE_PANEL_WIDTH
 import org.aktasbedir.blogmultiplatform.utils.Id
 import org.aktasbedir.blogmultiplatform.utils.Res
+import org.aktasbedir.blogmultiplatform.utils.logout
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.vh
@@ -81,26 +82,35 @@ fun SidePanel() {
             title = "Home",
             selected = context.route.path == Screen.AdminHome.route,
             icon = Res.PathIcon.home,
-            onClick = {}
+            onClick = {
+                context.router.navigateTo(Screen.AdminHome.route)
+            }
         )
         NavigationItem(
             modifier = Modifier.margin(bottom = 24.px),
             selected = context.route.path == Screen.AdminCreate.route,
             title = "Create Post",
             icon = Res.PathIcon.create,
-            onClick = {}
+            onClick = {
+                context.router.navigateTo(Screen.AdminCreate.route)
+            }
         )
         NavigationItem(
             modifier = Modifier.margin(bottom = 24.px),
             selected = context.route.path == Screen.AdminMyPosts.route,
             title = "My Posts",
             icon = Res.PathIcon.posts,
-            onClick = {}
+            onClick = {
+                context.router.navigateTo(Screen.AdminMyPosts.route)
+            }
         )
         NavigationItem(
             title = "Logout",
             icon = Res.PathIcon.logout,
-            onClick = {}
+            onClick = {
+                logout()
+                context.router.navigateTo(Screen.AdminLogin.route)
+            }
         )
     }
 }

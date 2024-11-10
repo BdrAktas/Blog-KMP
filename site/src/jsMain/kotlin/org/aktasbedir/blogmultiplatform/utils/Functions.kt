@@ -35,3 +35,10 @@ fun isUserLoggedIn(content: @Composable () -> Unit) {
         println("Loading...")
     }
 }
+
+fun logout() {
+    localStorage.removeItem("isLoggedIn")
+    localStorage.removeItem("userId")
+    localStorage.removeItem("username")
+}
+

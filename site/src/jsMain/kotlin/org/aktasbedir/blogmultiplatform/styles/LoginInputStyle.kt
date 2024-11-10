@@ -1,6 +1,6 @@
 package org.aktasbedir.blogmultiplatform.styles
 
-import com.varabyte.kobweb.compose.css.CSSTransition
+import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.border
@@ -20,7 +20,15 @@ val LoginInputStyle by ComponentStyle {
                 style = LineStyle.Solid,
                 color = Colors.Transparent
             )
-            .transition(CSSTransition(property = "border", duration = 300.ms))
+            .transition(
+                //CSSTransition(property = "border", duration = 300.ms
+                Transition.of(
+                    property = "border",
+                    duration = 300.ms,
+                    timingFunction = null,
+                    delay = null
+                )
+            )
     }
     focus {
         Modifier

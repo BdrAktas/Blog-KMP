@@ -12,6 +12,11 @@ import org.aktasbedir.blogmultiplatform.components.SidePanel
 import org.aktasbedir.blogmultiplatform.utils.Constants.PAGE_MAX_WIDTH
 import org.aktasbedir.blogmultiplatform.utils.isUserLoggedIn
 import org.jetbrains.compose.web.css.px
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import org.aktasbedir.blogmultiplatform.components.OverflowSidePanel
 
 // zaten dosya ismi "Index" oldugu icin  bu spesifik routeun home pageine "website/admin" ile gidebiliriz
 @Page
@@ -26,14 +31,25 @@ fun HomePage() {
 
 @Composable
 fun HomeScreen() {
+    var overflowMenuOpened by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .maxWidth(PAGE_MAX_WIDTH.px)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .maxWidth(PAGE_MAX_WIDTH.px)
         ) {
-            SidePanel(onMenuClick = {})
+            SidePanel(onMenuClick = {
+                overflowMenuOpened = true
+            })
+            if (overflowMenuOpened) {
+                OverflowSidePanel(onMenuClose = {
+                    overflowMenuOpened = false
+                })
+            }
         }
-    }}
+    }
+}

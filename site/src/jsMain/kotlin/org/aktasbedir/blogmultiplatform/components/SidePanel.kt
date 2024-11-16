@@ -2,7 +2,14 @@ package org.aktasbedir.blogmultiplatform.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.Cursor
+import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.css.ScrollBehavior
 import com.varabyte.kobweb.compose.dom.svg.Path
 import com.varabyte.kobweb.compose.dom.svg.Svg
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -22,8 +29,13 @@ import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.id
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
+import com.varabyte.kobweb.compose.ui.modifiers.opacity
+import com.varabyte.kobweb.compose.ui.modifiers.overflow
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.position
+import com.varabyte.kobweb.compose.ui.modifiers.scrollBehavior
+import com.varabyte.kobweb.compose.ui.modifiers.transition
+import com.varabyte.kobweb.compose.ui.modifiers.translateX
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.modifiers.zIndex
 import com.varabyte.kobweb.compose.ui.styleModifier
@@ -38,6 +50,8 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.aktasbedir.blogmultiplatform.models.Theme
 import org.aktasbedir.blogmultiplatform.navigation.Screen
 import org.aktasbedir.blogmultiplatform.styles.NavigationItemStyle
@@ -48,6 +62,8 @@ import org.aktasbedir.blogmultiplatform.utils.Id
 import org.aktasbedir.blogmultiplatform.utils.Res
 import org.aktasbedir.blogmultiplatform.utils.logout
 import org.jetbrains.compose.web.css.Position
+import org.jetbrains.compose.web.css.Transition
+import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.vh
@@ -290,11 +306,30 @@ fun CollapsedSidePanel(onMenuClick: () -> Unit) {
 @Composable
 fun OverflowSidePanel(onMenuClose: () -> Unit) {
     val breakpoint = rememberBreakpoint()
+    val scope = rememberCoroutineScope()
 
-    //eger tabletten buyukse menuyi otamatic olarak kapat
+    //baslangicta -100 yani ekranin sol tarafinda olacak
+    // baslangicta 0 yani ekranda gorunur olmucak
+    var translateX by remember { mutableStateOf((-100).percent) }
+    var opacity by remember { mutableStateOf(0.percent) }
+
+    //LaunchedEffect, bileşen ilk kez ekrana eklendiğinde (compose edildiğinde) çalışır
+    // ve içinde tanımlanan işlemleri bir kez yürütür.
+    //It can handle long-running or asynchronous tasks (e.g., delays, network calls) without blocking the main thread.
+    //Yalnızca bir kez çalışması gereken işlemler (örneğin veri çekme veya animasyon başlatma) için idealdir.
     LaunchedEffect(key1 = breakpoint) {
+        translateX = 0.percent
+        opacity = 100.percent
+        //eger tabletten buyukse menuyi otamatic olarak kapat
         if (breakpoint > Breakpoint.MD) {
-            onMenuClose()
+            scope.launch {
+                //close cagrildigi icin translateX ve opacityi de sifirladik
+                translateX = (-100).percent
+                opacity = 0.percent
+                //gorebilmek icin delay ekledik
+                delay(500)
+                onMenuClose()
+            }
         }
     }
 
@@ -303,6 +338,8 @@ fun OverflowSidePanel(onMenuClose: () -> Unit) {
             .fillMaxWidth()
             .height(100.vh)
             .position(Position.Fixed)
+            .opacity(opacity)
+            .transition(com.varabyte.kobweb.compose.css.Transition.of("opacity", 300.ms))
             .zIndex(9)
             .backgroundColor(Theme.HalfBlack.rgb)
     ) {
@@ -312,10 +349,15 @@ fun OverflowSidePanel(onMenuClose: () -> Unit) {
                 .fillMaxHeight()
                 //burda direk 250 yerine percantage kullandik
                 .width(if (breakpoint < Breakpoint.MD) 50.percent else 25.percent)
+                .translateX(translateX)
+                .transition(com.varabyte.kobweb.compose.css.Transition.of("translate", 300.ms))
+                //scrollable olmasi icin
+                .overflow(Overflow.Auto)
+                .scrollBehavior(ScrollBehavior.Smooth)
                 .backgroundColor(Theme.Secondary.rgb)
         ) {
             Row(
-                modifier = Modifier.margin(bottom = 60.px),
+                modifier = Modifier.margin(bottom = 60.px, top = 20.px),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 //icon: https://fontawesome.com/search?q=xmark&o=r
@@ -325,7 +367,14 @@ fun OverflowSidePanel(onMenuClose: () -> Unit) {
                         .color(Colors.White)
                         .cursor(Cursor.Pointer)
                         .onClick {
-                            onMenuClose()
+                            scope.launch {
+                                //close cagrildigi icin translateX ve opacityi de sifirladik
+                                translateX = (-100).percent
+                                opacity = 0.percent
+                                //gorebilmek icin delay ekledik
+                                delay(500)
+                                onMenuClose()
+                            }
                         },
                     size = IconSize.LG
                 )

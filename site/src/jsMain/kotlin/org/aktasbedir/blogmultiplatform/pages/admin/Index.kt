@@ -42,6 +42,7 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import org.aktasbedir.blogmultiplatform.components.AdminPageLayout
+import org.aktasbedir.blogmultiplatform.components.LoadingIndicator
 import org.aktasbedir.blogmultiplatform.models.RandomJoke
 import org.aktasbedir.blogmultiplatform.models.Theme
 import org.aktasbedir.blogmultiplatform.navigation.Screen
@@ -150,8 +151,7 @@ fun HomeContent(randomJoke: RandomJoke?) {
                 }
             }
         } else {
-            // Sonradan buraya farkli bir UI component gelicek
-            println("Loading a joke...")
+            LoadingIndicator()
         }
     }
 }

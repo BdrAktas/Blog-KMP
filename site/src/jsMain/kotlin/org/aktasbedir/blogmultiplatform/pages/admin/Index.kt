@@ -1,6 +1,11 @@
 package org.aktasbedir.blogmultiplatform.pages.admin
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextAlign
@@ -37,13 +42,14 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import org.aktasbedir.blogmultiplatform.components.AdminPageLayout
-import org.aktasbedir.blogmultiplatform.models.Joke
+import org.aktasbedir.blogmultiplatform.models.RandomJoke
 import org.aktasbedir.blogmultiplatform.models.Theme
 import org.aktasbedir.blogmultiplatform.navigation.Screen
 import org.aktasbedir.blogmultiplatform.utils.Constants.FONT_FAMILY
 import org.aktasbedir.blogmultiplatform.utils.Constants.PAGE_MAX_WIDTH
 import org.aktasbedir.blogmultiplatform.utils.Constants.SIDE_PANEL_WIDTH
 import org.aktasbedir.blogmultiplatform.utils.Res
+import org.aktasbedir.blogmultiplatform.utils.fetchRandomJoke
 import org.aktasbedir.blogmultiplatform.utils.isUserLoggedIn
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.percent
@@ -63,18 +69,24 @@ fun HomePage() {
 
 @Composable
 fun HomeScreen() {
+    var randomJoke: RandomJoke? by remember { mutableStateOf(null) }
+
+    //LaunchedEffect Jetpack Compose'da bir side-effect oluşturmak, bir composable içindeki CoroutineScope'u başlatmak için kullanılan bir composable fonksiyondur.
+    //Belirli bir "key" değerine bağlı olarak yalnızca bir kez veya key değiştiğinde tetiklenir.
+   //Unit burada statik bir değer olduğu için, LaunchedEffect yalnızca bir kez tetiklenecektir (Composable ilk kez compose edildiğinde).
+// Ancak, kompleks veri işlemleri için ViewModel'e ve StateFlow/LiveData'ya taşınması önerilir.
+    LaunchedEffect(Unit) {
+        fetchRandomJoke { randomJoke = it }
+    }
+
     AdminPageLayout{
-        HomeContent(
-            joke = Joke(
-                id = 2,
-                joke = "Some random joke....:Some random joke....:Some random joke....")
-        )
+        HomeContent(randomJoke = randomJoke)
         AddButton()
     }
 }
 
 @Composable
-fun HomeContent(joke: Joke?) {
+fun HomeContent(randomJoke: RandomJoke?) {
     val breakpoint = rememberBreakpoint()
     Box(
         modifier = Modifier
@@ -82,7 +94,7 @@ fun HomeContent(joke: Joke?) {
             .padding(left = if(breakpoint > Breakpoint.MD) SIDE_PANEL_WIDTH.px else 0.px),
         contentAlignment = Alignment.Center
     ) {
-        if (joke != null) {
+        if (randomJoke != null) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -90,7 +102,7 @@ fun HomeContent(joke: Joke?) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (joke.id != -1) {
+                if (randomJoke.id != -1) {
                     Image(
                         modifier = Modifier
                             .size(150.px)
@@ -100,40 +112,40 @@ fun HomeContent(joke: Joke?) {
                     )
                 }
                 // Eger joke Q: ile basliyorsa yani hem hem question hem de answer varsa
-                if (joke.joke.contains("Q:")) {
+                if (randomJoke.joke.contains("Q:")) {
                     SpanText(
                         modifier = Modifier
                             .margin(bottom = 14.px)
-                            .fillMaxWidth(60.percent)
+                            .fillMaxWidth(40.percent)
                             .textAlign(TextAlign.Center)
                             .color(Theme.Secondary.rgb)
                             .fontSize(28.px)
                             .fontFamily(FONT_FAMILY)
                             .fontWeight(FontWeight.Bold),
                         // Listeki ikinci itemi al demek
-                        text = joke.joke.split(":")[1]
+                        text = randomJoke.joke.split(":")[1].dropLast(1)
                     )
                     SpanText(
                         modifier = Modifier
-                            .fillMaxWidth(60.percent)
+                            .fillMaxWidth(40.percent)
                             .textAlign(TextAlign.Center)
                             .color(Theme.HalfBlack.rgb)
                             .fontSize(20.px)
                             .fontFamily(FONT_FAMILY)
                             .fontWeight(FontWeight.Normal),
-                        text = joke.joke.split(":").last()
+                        text = randomJoke.joke.split(":").last()
                     )
                 } else {
                     SpanText(
                         modifier = Modifier
                             .margin(bottom = 14.px)
-                            .fillMaxWidth(60.percent)
+                            .fillMaxWidth(40.percent)
                             .textAlign(TextAlign.Center)
                             .color(Theme.Secondary.rgb)
                             .fontFamily(FONT_FAMILY)
                             .fontSize(28.px)
                             .fontWeight(FontWeight.Bold),
-                        text = joke.joke.split(":")[1]
+                        text = randomJoke.joke
                     )
                 }
             }
